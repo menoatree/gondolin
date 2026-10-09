@@ -212,7 +212,6 @@ jobs:
       - name: Verify krun runner binary
         run: host/krun-runner/zig-out/bin/gondolin-krun-runner --version
 
-      # CI hosts have AVX-512; a runner built for them dies with SIGILL on CPUs without it.
       - name: Verify krun runner uses no AVX-512
         run: |
           if objdump -d host/krun-runner/zig-out/bin/gondolin-krun-runner | grep -q '%zmm'; then
