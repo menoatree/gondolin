@@ -131,10 +131,7 @@ export type SandboxServerOptions = {
   debug?: DebugConfig;
   /** qemu machine type */
   machineType?: string;
-  /**
-   * attach a virtio-balloon with free page reporting so memory the guest frees
-   * is returned to the host (qemu only, default: true; krun always reports)
-   */
+  /** return guest-freed memory to the host via virtio-balloon (default: true) */
   freePageReporting?: boolean;
   /** qemu acceleration backend (e.g. kvm, hvf) */
   accel?: string;
@@ -230,10 +227,7 @@ export type ResolvedSandboxServerOptions = {
   debug: DebugFlag[];
   /** qemu machine type */
   machineType?: string;
-  /**
-   * attach a virtio-balloon with free page reporting so memory the guest frees
-   * is returned to the host (qemu only, default: true; krun always reports)
-   */
+  /** return guest-freed memory to the host via virtio-balloon (default: true) */
   freePageReporting?: boolean;
   /** qemu acceleration backend (e.g. kvm, hvf) */
   accel?: string;

@@ -252,10 +252,7 @@ export type SandboxConfig = {
   qmpSocketPath?: string;
   /** qemu idle pause timeout in `ms` */
   qemuIdlePauseMs?: number;
-  /**
-   * attach a virtio-balloon with free page reporting so memory the guest frees
-   * is returned to the host (default: true)
-   */
+  /** return guest-freed memory to the host via virtio-balloon (default: true) */
   freePageReporting?: boolean;
   /** host-to-guest clock sync after QMP cont */
   onResume?: () => Promise<void>;
@@ -668,9 +665,6 @@ function buildQemuArgs(config: SandboxConfig) {
   args.push("-object", "rng-random,filename=/dev/urandom,id=rng0");
   args.push("-device", `${rngDev},rng=rng0`);
   if (config.freePageReporting ?? true) {
-    // The guest reports pages it frees and qemu discards them, so the host
-    // gets back memory a workload used once instead of holding it until the
-    // VM exits. The balloon itself is never inflated.
     args.push("-device", `${balloonDev},free-page-reporting=on`);
   }
   args.push(
