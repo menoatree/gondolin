@@ -89,6 +89,10 @@ if modprobe virtio_net > /dev/null 2>&1; then
   log "[init] loaded virtio_net"
 fi
 
+if modprobe virtio_balloon > /dev/null 2>&1; then
+  log "[init] loaded virtio_balloon"
+fi
+
 if command -v ip > /dev/null 2>&1; then
   ip link set lo up || true
   ip link set eth0 up || true

@@ -17,6 +17,7 @@ This page is the authoritative backend-parity reference for SDK/CLI behavior.
 | `sandbox.machineType`                                          | ✓      |        | Rejected when `vmm=krun`                                                                                                     |
 | `sandbox.accel`                                                | ✓      |        | Rejected when `vmm=krun`; libkrun backend is implicit per OS                                                                 |
 | `sandbox.cpu`                                                  | ✓      |        | Rejected when `vmm=krun`                                                                                                     |
+| `sandbox.freePageReporting`                                    | ✓      |        | Default `true`; krun always reports free pages, so the option is rejected when `vmm=krun`                                    |
 | `sandbox.cpus`                                                 | ✓      | ✓      | Shared high-level CPU count option                                                                                           |
 | `sandbox.memory`                                               | ✓      | ✓      | `krun` parses memory and passes MiB to `libkrun`                                                                             |
 | `sandbox.rootDiskPath` / `rootDiskFormat` / `rootDiskReadOnly` | ✓      | ✓      | Supported on both backends                                                                                                   |

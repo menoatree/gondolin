@@ -455,6 +455,7 @@ export class SandboxServer extends EventEmitter {
         netMac: this.options.netMac,
         append: this.baseAppend,
         machineType: this.options.machineType,
+        freePageReporting: this.options.freePageReporting,
         accel: this.options.accel,
         cpu: this.options.cpu,
         console: this.options.console,

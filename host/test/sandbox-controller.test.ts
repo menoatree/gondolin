@@ -150,6 +150,29 @@ test("buildQemuArgs: rootDiskVolatileMode=snapshot enables qemu snapshot mode", 
   assert.match(args[driveIndex + 1]!, /snapshot=on/);
 });
 
+test("buildQemuArgs: attaches a balloon with free page reporting by default", () => {
+  const deviceArgs = (config: Parameters<typeof makeConfig>[0]) => {
+    const args = __test.buildQemuArgs(makeConfig(config));
+    return args.filter((_, i) => i > 0 && args[i - 1] === "-device");
+  };
+
+  assert.ok(
+    deviceArgs({ machineType: "q35" }).includes(
+      "virtio-balloon-pci,free-page-reporting=on",
+    ),
+  );
+  assert.ok(
+    deviceArgs({ machineType: "microvm" }).includes(
+      "virtio-balloon-device,free-page-reporting=on",
+    ),
+  );
+  assert.ok(
+    !deviceArgs({ machineType: "q35", freePageReporting: false }).some((d) =>
+      d.startsWith("virtio-balloon"),
+    ),
+  );
+});
+
 test("SandboxController: idle resume syncs clock before admitting work", async () => {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "gondolin-qmp-test-"));
   const seenCommands: string[] = [];

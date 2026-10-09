@@ -258,6 +258,24 @@ test("resolveSandboxServerOptions rejects single qemu-only option for krun", () 
   }
 });
 
+test("resolveSandboxServerOptions rejects freePageReporting for krun", () => {
+  const hostArch = process.arch === "arm64" ? "aarch64" : "x86_64";
+  const dir = makeTempAssetsDir(hostArch);
+  try {
+    assert.throws(
+      () =>
+        resolveSandboxServerOptions({
+          imagePath: dir,
+          vmm: "krun",
+          freePageReporting: false,
+        }),
+      /Unsupported sandbox option for vmm=krun: sandbox\.freePageReporting/,
+    );
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 test("resolveSandboxServerOptions uses manifest krunKernel/krunInitrd when vmm=krun", () => {
   const hostArch = process.arch === "arm64" ? "aarch64" : "x86_64";
   const dir = makeTempAssetsDir(hostArch);

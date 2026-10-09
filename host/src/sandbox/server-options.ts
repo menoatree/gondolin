@@ -131,6 +131,11 @@ export type SandboxServerOptions = {
   debug?: DebugConfig;
   /** qemu machine type */
   machineType?: string;
+  /**
+   * attach a virtio-balloon with free page reporting so memory the guest frees
+   * is returned to the host (qemu only, default: true; krun always reports)
+   */
+  freePageReporting?: boolean;
   /** qemu acceleration backend (e.g. kvm, hvf) */
   accel?: string;
   /** qemu cpu model */
@@ -225,6 +230,11 @@ export type ResolvedSandboxServerOptions = {
   debug: DebugFlag[];
   /** qemu machine type */
   machineType?: string;
+  /**
+   * attach a virtio-balloon with free page reporting so memory the guest frees
+   * is returned to the host (qemu only, default: true; krun always reports)
+   */
+  freePageReporting?: boolean;
   /** qemu acceleration backend (e.g. kvm, hvf) */
   accel?: string;
   /** qemu cpu model */
@@ -870,6 +880,8 @@ export function resolveSandboxServerOptions(
     if (options.qemuPath !== undefined) unsupported.push("sandbox.qemuPath");
     if (options.machineType !== undefined)
       unsupported.push("sandbox.machineType");
+    if (options.freePageReporting !== undefined)
+      unsupported.push("sandbox.freePageReporting");
     if (options.accel !== undefined) unsupported.push("sandbox.accel");
     if (options.cpu !== undefined) unsupported.push("sandbox.cpu");
     if (options.qemuIdlePauseMs !== undefined)
@@ -997,6 +1009,7 @@ export function resolveSandboxServerOptions(
     allowWebSockets: options.allowWebSockets ?? true,
     debug,
     machineType: options.machineType,
+    freePageReporting: options.freePageReporting,
     accel: options.accel,
     cpu,
     console: options.console,

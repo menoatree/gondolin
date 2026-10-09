@@ -55,7 +55,8 @@ feature parity is not complete.
 Notable gaps today:
 
 - Cross-backend checkpoint resume (`qemu` ↔ `krun`) requires asset builds that include `manifest.assets.krunKernel`
-- qemu-specific backend knobs (`machineType`, `accel`, `cpu`, `qemuPath`) are
+- qemu-specific backend knobs (`machineType`, `accel`, `cpu`, `qemuPath`,
+  `freePageReporting`) are
   rejected when `vmm=krun`
 - `rootfs.mode="memory"` is not truly RAM-backed on `krun` (or on `qemu` when
   combined with `rootfs.size`); it is implemented as a temporary qcow2 overlay
