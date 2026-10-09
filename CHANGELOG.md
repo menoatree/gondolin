@@ -4,6 +4,7 @@ All notable changes to Gondolin are documented here.
 
 ## Unreleased
 
+- Fix the Linux `gondolin-krun-runner` crashing with `SIGILL` (illegal instruction) on x86_64 CPUs without AVX-512, such as AMD Zen 3: the runner was built for the CI host's CPU.  It now builds for the architecture's baseline CPU by default (`-Dcpu=native` opts back into a host-tuned build), and CI checks the Linux runner for AVX-512 instructions.
 - Fix `chmod` from the guest being silently ignored on VFS mounts (`MemoryProvider`, `RealFSProvider`, `ShadowProvider`, ...): sandboxfs now forwards mode changes to the host and providers gain an optional `chmod()` method.  `RealFSProvider` never applies setuid/setgid bits to host files.  Requires a guest image built with this version.  #115
 - Fix a TOCTOU race in VFS path validation: fs-rpc requests are now processed strictly in order, so a guest pipelining requests can no longer swap a directory between `RealFSProvider`'s path check and the host syscall to reach files outside the mount root.  #143
 

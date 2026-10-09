@@ -11,7 +11,10 @@ comptime {
 }
 
 pub fn build(b: *std.Build) void {
-    const target = b.standardTargetOptions(.{});
+    // Default to the architecture's baseline CPU instead of the build machine's: the runner ships as a prebuilt npm
+    // package, and a native build on a CI host with AVX-512 dies with SIGILL on CPUs without it (e.g. AMD Zen 3).
+    // `-Dcpu=native` still opts into a host-tuned local build.
+    const target = b.standardTargetOptions(.{ .default_target = .{ .cpu_model = .baseline } });
     const optimize = b.standardOptimizeOption(.{});
     const libkrun_prefix = b.option([]const u8, "libkrun-prefix", "prefix directory containing libkrun include/lib") orelse "";
 
